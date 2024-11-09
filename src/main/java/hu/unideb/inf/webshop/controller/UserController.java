@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/fitness/users")
+@RequestMapping("/webshop/users")
 public class UserController {
     @Autowired
     private UserRepository userRepository;

@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>hu.unideb.inf</groupId>
-    <artifactId>fitness_tracker</artifactId>
+    <artifactId>web_shop</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>fitness_tracker</name>
+    <name>web_shop</name>
     <description>Demo project for Spring Boot</description>
 
     <url/>
