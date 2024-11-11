@@ -20,8 +20,18 @@ public class UserController {
         return userRepository.findAll();
     }
 
+    @GetMapping("/{id}")
+    public UserEntity getUser(@PathVariable("id") int id){
+        return userRepository.findById(id).get();
+    }
+
     @PostMapping()
     public UserEntity saveTermek(@RequestBody UserEntity user){
         return userRepository.save(user);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable("id") int id){
+        userRepository.deleteById(id);
     }
 }
