@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
     log.info("Inside signup {}",requestMap);
     try {
         if (validateSignUpMap(requestMap)) {
-            User user = userRepository.findByEmailId(requestMap.get("emailAddress"));
+            User user = userRepository.findByEmailId(requestMap.get("email"));
             if (Objects.isNull(user)) {
                 userRepository.save(getUserFromMap(requestMap));
                 return WebShopUtils.getResponseEntity("Succesfully Registered.", HttpStatus.OK);
@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private boolean  validateSignUpMap(Map<String,String> requestMap){
-        if (requestMap.containsKey("email_address") && requestMap.containsKey("password")
+        if (requestMap.containsKey("email") && requestMap.containsKey("password")
                 && requestMap.containsKey("first_name") && requestMap.containsKey("last_name")){
             return true;
         }
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setFirstName(requestMap.get("first_name"));
         user.setLastName(requestMap.get("last_name"));
-        user.setEmailAddress(requestMap.get("email-address"));
+        user.setEmailAddress(requestMap.get("email"));
         user.setPassword(requestMap.get("password"));
         return user;
     }

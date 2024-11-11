@@ -7,7 +7,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import java.io.Serializable;
 
-@NamedQuery(name = "User.findByEmailId", query = "select u from User u where u.emailAddress =:email")
+@NamedQuery(name = "User.findByEmailId", query = "select u from User u where u.emailAddress =:emailAddress")
 
 @Data
 @Entity
@@ -38,8 +38,8 @@ public class User implements Serializable {
         return id;
     }
 
-    public User(String password) {
-        this.password = password;
+    public String password() {
+        return password;
     }
 
     public void setId(int id) {
