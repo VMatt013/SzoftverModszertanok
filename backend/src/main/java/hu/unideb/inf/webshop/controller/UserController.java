@@ -26,7 +26,7 @@ public class UserController {
     }
 
     @PostMapping()
-    public UserEntity saveTermek(@RequestBody UserEntity user){
+    public UserEntity saveUser(@RequestBody UserEntity user){
         return userRepository.save(user);
     }
 
