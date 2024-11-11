@@ -1,10 +1,23 @@
-package hu.unideb.inf.webshop.data.entity;
+package hu.unideb.inf.webshop.POJO;
 
 import jakarta.persistence.*;
+import lombok.Data;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
+import java.io.Serializable;
+
+@NamedQuery(name = "User.findByEmailId", query = "select u from User u where u.emailAddress =:email")
+
+@Data
 @Entity
-@Table(name = "users")
-public class UserEntity {
+@DynamicUpdate
+@DynamicInsert
+@Table(name = "user")
+public class User implements Serializable {
+
+    private  static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -14,13 +27,19 @@ public class UserEntity {
     private String lastName;
     @Column(name="email_address")
     private String emailAddress;
+    @Column (name = "password")
+    private String password;
 
 
-    public UserEntity() {
+    public User() {
     }
 
     public int getId() {
         return id;
+    }
+
+    public User(String password) {
+        this.password = password;
     }
 
     public void setId(int id) {
@@ -49,6 +68,14 @@ public class UserEntity {
 
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
 
