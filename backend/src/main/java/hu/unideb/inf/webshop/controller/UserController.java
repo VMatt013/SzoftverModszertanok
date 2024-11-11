@@ -35,5 +35,14 @@ public class UserController {
         userRepository.deleteById(id);
     }
 
-    
+    @PutMapping("/{id}")
+    public UserEntity updateUser(@PathVariable("id") int id, @RequestBody UserEntity userDetails){
+        UserEntity user = userRepository.getReferenceById(id);
+
+        user.setFirstName(userDetails.getFirstName());
+        user.setLastName(userDetails.getLastName());
+        user.setEmailAddress(userDetails.getEmailAddress());
+
+        return userRepository.save(user);
+    }
 }
