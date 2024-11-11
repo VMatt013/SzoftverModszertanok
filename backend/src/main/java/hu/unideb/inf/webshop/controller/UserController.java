@@ -22,7 +22,11 @@ public class UserController {
 
     @GetMapping("/{id}")
     public UserEntity getUser(@PathVariable("id") int id){
-        return userRepository.findById(id).get();
+
+        UserEntity user = userRepository.findById(id).orElseThrow(() ->
+                new RuntimeException("User not found with id: " + id));
+
+        return user;
     }
 
     @PostMapping()
