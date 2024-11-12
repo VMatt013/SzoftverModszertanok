@@ -27,20 +27,26 @@
             <organizationUrl>https://www.inf.unideb.hu/</organizationUrl>
         </developer>
         <developer>
-            <id>szoti21</id>
+            <id>shiroyama42</id>
             <name>Vajas Benjámin</name>
             <email>vajas.ben1227@gmail.com</email>
             <organization>Faculty of Informatics, University of Debrecen</organization>
             <organizationUrl>https://www.inf.unideb.hu/</organizationUrl>
         </developer>
         <developer>
-        <id>szopkopatrik</id>
-        <name>Szopkó Endre Patrik</name>
-        <email>szoppkopatrik@gmail.com</email>
-        <organization>Faculty of Informatics, University of Debrecen</organization>
-        <organizationUrl>https://www.inf.unideb.hu/</organizationUrl>
-    </developer>
-        <!--TODO: other devs-->
+            <id>szopkopatrik</id>
+            <name>Szopkó Endre Patrik</name>
+            <email>szoppkopatrik@gmail.com</email>
+            <organization>Faculty of Informatics, University of Debrecen</organization>
+            <organizationUrl>https://www.inf.unideb.hu/</organizationUrl>
+        </developer>
+        <developer>
+            <id>VMatt013</id>
+            <name>Vass Máté</name>
+            <email>v.matt0825@gmail.com</email>
+            <organization>Faculty of Informatics, University of Debrecen</organization>
+            <organizationUrl>https://www.inf.unideb.hu/</organizationUrl>
+        </developer>
     </developers>
     <scm>
         <connection/>
