@@ -33,6 +33,13 @@
             <organization>Faculty of Informatics, University of Debrecen</organization>
             <organizationUrl>https://www.inf.unideb.hu/</organizationUrl>
         </developer>
+        <developer>
+        <id>szopkopatrik</id>
+        <name>Szopkó Endre Patrik</name>
+        <email>szoppkopatrik@gmail.com</email>
+        <organization>Faculty of Informatics, University of Debrecen</organization>
+        <organizationUrl>https://www.inf.unideb.hu/</organizationUrl>
+    </developer>
         <!--TODO: other devs-->
     </developers>
     <scm>
