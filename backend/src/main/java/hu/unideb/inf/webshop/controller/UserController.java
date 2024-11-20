@@ -3,7 +3,6 @@ package hu.unideb.inf.webshop.controller;
 
 import hu.unideb.inf.webshop.data.entity.UserEntity;
 import hu.unideb.inf.webshop.data.repository.UserRepository;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
