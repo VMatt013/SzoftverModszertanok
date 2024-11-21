@@ -1,4 +1,4 @@
-package hu.unideb.inf.webshop.controller;
+package hu.unideb.inf.webshop.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
