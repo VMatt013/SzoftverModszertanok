@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root' // Makes the service available globally without needing a module
 })
-export class UserService {
+export class BackendService {
   private apiUrl = 'webshop/users';
 
   constructor(private http: HttpClient) {}
