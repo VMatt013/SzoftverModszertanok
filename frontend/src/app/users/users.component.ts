@@ -3,23 +3,28 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { BackendService } from '../backend.service';
 import {FormsModule} from '@angular/forms';
+import {log} from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css'],
-  standalone: true,
-  imports: [CommonModule, HttpClientModule, FormsModule]
+  standalone: true, // Enable standalone mode
+  imports: [CommonModule, HttpClientModule, FormsModule] // Import any required modules
 })
 export class UsersComponent implements OnInit {
   users: any[] = [];
-  newUser = { id: 0, firstName: '', lastName: '', emailAddress: '' };
+  newUser = {id: 0, firstName: '', lastName: '', emailAddress: ''};
+  editingUser: any = null; // Track the user being edited
+  backupUser: any = null; // Store original data for cancelation
 
-  constructor(private userService: BackendService) { }
+  constructor(private userService: BackendService) {
+  }
 
   ngOnInit(): void {
     this.loadUsers();
   }
+
   loadUsers(): void {
     this.userService.getUsers().subscribe(
       (data) => {
@@ -30,13 +35,14 @@ export class UsersComponent implements OnInit {
       }
     );
   }
+
   addUser(): void {
     if (this.newUser.firstName && this.newUser.lastName && this.newUser.emailAddress) {
       this.userService.addUser(this.newUser).subscribe(
         (addedUser) => {
           this.users.push(addedUser);
-      this.newUser = { id: 0, firstName: '', lastName: '', emailAddress: 'asd' }; // Reset the form
-    },
+          this.newUser = {id: 0, firstName: '', lastName: '', emailAddress: ''}; // Reset the form
+        },
         (error) => {
           console.error('Error adding user:', error);
         }
@@ -46,4 +52,48 @@ export class UsersComponent implements OnInit {
     }
   }
 
+  deleteUser(userId: number): void {
+    if (!userId) {
+      console.error('Invalid User ID');
+      return;
+    }
+
+    this.userService.deleteUser(userId).subscribe(
+      () => {
+        // Remove the deleted user from the list
+        this.users = this.users.filter((user) => user.id !== userId);
+        console.log(`User with ID ${userId} deleted successfully.`);
+      },
+      (error) => {
+        console.error('Error deleting user:', error);
+      }
+    );
+  }
+
+  editUser(user: any): void {
+    this.users.forEach(u => u.isEdit = false); // Close other edits
+    user.isEdit = true;
+  }
+
+  saveUser(user: any): void {
+    this.userService.updateUser(user.id, user).subscribe(
+      (updatedUser) => {
+        const index = this.users.findIndex(u => u.id === updatedUser.id);
+        if (index !== -1) {
+          this.users[index] = updatedUser; // Update local data
+        }
+        user.isEdit = false; // Exit edit mode
+        console.log('User updated successfully:', updatedUser);
+      },
+      (error) => {
+        console.error('Error updating user:', error);
+        alert('Failed to update user. Please try again.');
+      }
+    );
+  }
+
+  cancelEdit(): void {
+    this.loadUsers(); // Reload users to discard changes
+    this.users.forEach(u => u.isEdit = false); // Exit edit mode
+  }
 }
