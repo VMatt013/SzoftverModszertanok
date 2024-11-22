@@ -1,4 +1,4 @@
-<div *ngIf="products.length;">
+<div>
   <h2>Product List</h2>
 
   <div class="table-responsive-sm w-75 p-3 container-fluid">
@@ -58,6 +58,9 @@
               <button type="button" class="btn btn-danger" (click)="cancelEdit()">Cancel</button>
             </div>
           </td>
+        </tr>
+        <tr *ngIf="products.length === 0">
+          <td colspan="5" class="text-center">No product found. Add a new product!</td>
         </tr>
         <tr>
           <td></td>

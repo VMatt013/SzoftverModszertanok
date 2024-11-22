@@ -1,5 +1,5 @@
 
-<div *ngIf="users.length;">
+<div>
   <h2>User List</h2>
 
   <div class="table-responsive-sm w-75 p-3 container-fluid">
@@ -50,6 +50,9 @@
             <button type="button" class="btn btn-danger" (click)="cancelEdit()">Cancel</button>
           </div>
         </td>
+      </tr>
+      <tr *ngIf="users.length === 0">
+        <td colspan="5" class="text-center">No users found. Add a new user!</td>
       </tr>
       <tr>
         <td></td>
