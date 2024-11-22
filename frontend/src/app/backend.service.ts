@@ -24,7 +24,7 @@ export class BackendService {
   }
 
   updateUser(userId: number, updatedUser: any): Observable<any> {
-    return this.http.put(`${usersUrl}/${userId}`, updatedUser); // PUT request to update the user
+    return this.http.put(`${this.usersUrl}/${userId}`, updatedUser); // PUT request to update the user
   }
 
 
@@ -41,7 +41,7 @@ export class BackendService {
   }
 
   updateProduct(productId: number, updatedProduct: any): Observable<any> {
-    return this.http.put(`${productUrl}/${productId}`, updatedProduct); // PUT request to update the product
+    return this.http.put(`${this.productsUrl}/${productId}`, updatedProduct); // PUT request to update the product
   }
 
 }
