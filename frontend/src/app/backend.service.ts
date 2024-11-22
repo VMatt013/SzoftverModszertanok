@@ -20,13 +20,11 @@ export class BackendService {
   }
 
   deleteUser(userId: number): Observable<void> {
-    const url = `${this.usersUrl}/${userId}`;
-    return this.http.delete<void>(url);
+    return this.http.delete<void>(`${this.usersUrl}/${userId}`);
   }
 
   updateUser(userId: number, updatedUser: any): Observable<any> {
-    const url = `http://localhost:8080/webshop/users/${userId}`;
-    return this.http.put(url, updatedUser); // PUT request to update the user
+    return this.http.put(`${usersUrl}/${userId}`, updatedUser); // PUT request to update the user
   }
 
 
@@ -39,13 +37,11 @@ export class BackendService {
   }
 
   deleteProduct(productId: number): Observable<void> {
-    const url = `${this.productsUrl}/${productId}`;
-    return this.http.delete<void>(url);
+    return this.http.delete<void>(`${this.productsUrl}/${productId}`);
   }
 
   updateProduct(productId: number, updatedProduct: any): Observable<any> {
-    const url = `http://localhost:8080/webshop/products/${productId}`;
-    return this.http.put(url, updatedProduct); // PUT request to update the product
+    return this.http.put(`${productUrl}/${productId}`, updatedProduct); // PUT request to update the product
   }
 
 }
