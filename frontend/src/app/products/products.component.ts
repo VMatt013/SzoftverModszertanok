@@ -18,7 +18,7 @@ export class ProductsComponent implements OnInit {
   editingProduct: any = null;
   backupProduct: any = null;
 
-  constructor(private userService: BackendService) {
+  constructor(private backendService: BackendService) {
   }
 
   ngOnInit(): void {
@@ -26,7 +26,7 @@ export class ProductsComponent implements OnInit {
   }
 
   loadProducts(): void {
-    this.userService.getProducts().subscribe(
+    this.backendService.getProducts().subscribe(
       (data) => {
         this.products = data;
       },
@@ -38,7 +38,7 @@ export class ProductsComponent implements OnInit {
 
   addProduct(): void {
     if (this.newProduct.size && this.newProduct.weight && this.newProduct.name && this.newProduct.price) {
-      this.userService.addProduct(this.newProduct).subscribe(
+      this.backendService.addProduct(this.newProduct).subscribe(
         (addedProduct) => {
           this.products.push(addedProduct);
           this.newProduct = {id: 0, size: '', weight: '', name: '', price: ''};
@@ -58,7 +58,7 @@ export class ProductsComponent implements OnInit {
       return;
     }
 
-    this.userService.deleteProduct(productId).subscribe(
+    this.backendService.deleteProduct(productId).subscribe(
       () => {
         // Remove the deleted product from the list
         this.products = this.products.filter((product) => product.id !== productId);
@@ -76,7 +76,7 @@ export class ProductsComponent implements OnInit {
   }
 
   saveProduct(product: any): void {
-    this.userService.updateProduct(product.id, product).subscribe(
+    this.backendService.updateProduct(product.id, product).subscribe(
       (updatedProduct) => {
         const index = this.products.findIndex(p => p.id === updatedProduct.id);
         if (index !== -1) {

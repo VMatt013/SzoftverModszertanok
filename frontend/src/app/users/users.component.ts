@@ -18,7 +18,7 @@ export class UsersComponent implements OnInit {
   editingUser: any = null; // Track the user being edited
   backupUser: any = null; // Store original data for cancelation
 
-  constructor(private userService: BackendService) {
+  constructor(private backendService: BackendService) {
   }
 
   ngOnInit(): void {
@@ -26,7 +26,7 @@ export class UsersComponent implements OnInit {
   }
 
   loadUsers(): void {
-    this.userService.getUsers().subscribe(
+    this.backendService.getUsers().subscribe(
       (data) => {
         this.users = data;
       },
@@ -38,7 +38,7 @@ export class UsersComponent implements OnInit {
 
   addUser(): void {
     if (this.newUser.firstName && this.newUser.lastName && this.newUser.emailAddress) {
-      this.userService.addUser(this.newUser).subscribe(
+      this.backendService.addUser(this.newUser).subscribe(
         (addedUser) => {
           this.users.push(addedUser);
           this.newUser = {id: 0, firstName: '', lastName: '', emailAddress: ''}; // Reset the form
@@ -58,7 +58,7 @@ export class UsersComponent implements OnInit {
       return;
     }
 
-    this.userService.deleteUser(userId).subscribe(
+    this.backendService.deleteUser(userId).subscribe(
       () => {
         // Remove the deleted user from the list
         this.users = this.users.filter((user) => user.id !== userId);
@@ -76,7 +76,7 @@ export class UsersComponent implements OnInit {
   }
 
   saveUser(user: any): void {
-    this.userService.updateUser(user.id, user).subscribe(
+    this.backendService.updateUser(user.id, user).subscribe(
       (updatedUser) => {
         const index = this.users.findIndex(u => u.id === updatedUser.id);
         if (index !== -1) {
