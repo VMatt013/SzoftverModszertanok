@@ -3,6 +3,7 @@ package hu.unideb.inf.webshop.controller;
 import hu.unideb.inf.webshop.data.entity.OrderEntity;
 
 import hu.unideb.inf.webshop.data.repository.OrderRepository;
+import hu.unideb.inf.webshop.service.dto.OrderDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,8 +16,8 @@ public class OrderController {
     private OrderRepository orderRepository;
 
     @GetMapping("")
-    public List<OrderEntity> getOrders(){
-        return orderRepository.findAll();
+    public List<OrderEntity> getOrdersByUserId(@PathVariable("userId") int userId){
+        return orderRepository.findByUserId(userId);
     }
 
     @GetMapping("/{id}")
@@ -29,7 +30,16 @@ public class OrderController {
     }
 
     @PostMapping()
-    public OrderEntity saveOrder(@RequestBody OrderEntity order){
+    public OrderEntity saveOrder(
+            @PathVariable("userId") int userId,
+            @RequestBody OrderDto orderDto
+    ){
+        OrderEntity order = new OrderEntity();
+        order.setDate(orderDto.getDate());
+        order.setUserId(userId);
+        order.setPaymentStatus(orderDto.getPaymentStatus());
+        order.setStatus(orderDto.getStatus());
+
         return orderRepository.save(order);
     }
 
