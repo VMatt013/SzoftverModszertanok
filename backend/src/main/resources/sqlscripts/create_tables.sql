@@ -5,7 +5,6 @@ CREATE TABLE users (
     email_address VARCHAR(150) UNIQUE
 );
 
-
 CREATE TABLE orders (
     id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     date DATETIME,
@@ -16,6 +15,13 @@ CREATE TABLE orders (
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
+CREATE TABLE products (
+    id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    size INT,
+    weight INT,
+    name VARCHAR(100),
+    price INT
+);
 
 CREATE TABLE products_orders (
     product_id INT,
@@ -24,15 +30,6 @@ CREATE TABLE products_orders (
     PRIMARY KEY (product_id, order_id),
     FOREIGN KEY (product_id) REFERENCES products(id),
     FOREIGN KEY (order_id) REFERENCES orders(id)
-);
-
-
-CREATE TABLE products (
-    id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    size INT,
-    weight INT,
-    name VARCHAR(100),
-    price INT
 );
 
 INSERT INTO users (first_name, last_name, email_address) VALUES
