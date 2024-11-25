@@ -19,7 +19,7 @@ CREATE TABLE orders (
 
 CREATE TABLE products_orders (
     product_id INT,
-    order_id BIGINT,
+    order_id INT,
     amount INT,
     PRIMARY KEY (product_id, order_id),
     FOREIGN KEY (product_id) REFERENCES products(id),
