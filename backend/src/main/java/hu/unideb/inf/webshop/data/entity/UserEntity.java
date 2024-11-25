@@ -2,17 +2,22 @@ package hu.unideb.inf.webshop.data.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @Column(name="first_name")
     private String firstName;
+
     @Column(name="last_name")
     private String lastName;
-    @Column(name="email_address")
+
+    @Column(name="email_address", unique = true)
     private String emailAddress;
 
 
@@ -50,5 +55,13 @@ public class UserEntity {
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
     }
+
+    /*public List<OrderEntity> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<OrderEntity> orders) {
+        this.orders = orders;
+    }*/
 }
 

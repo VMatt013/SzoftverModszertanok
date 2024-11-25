@@ -2,43 +2,62 @@ package hu.unideb.inf.webshop.controller;
 
 import hu.unideb.inf.webshop.data.entity.OrderEntity;
 
+import hu.unideb.inf.webshop.data.entity.UserEntity;
 import hu.unideb.inf.webshop.data.repository.OrderRepository;
+import hu.unideb.inf.webshop.data.repository.UserRepository;
 import hu.unideb.inf.webshop.service.dto.OrderDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/webshop/users/{userId}/orders")
+@RequestMapping("/webshop/orders")
 public class OrderController {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @GetMapping("")
-    public List<OrderEntity> getOrdersByUserId(@PathVariable("userId") int userId){
-        return orderRepository.findByUserId(userId);
+    public List<OrderDto> getOrders(/*@PathVariable("userId") int userId*/){
+        List<OrderEntity> orders = orderRepository.findAll();
+        return orders.stream()
+                .map(order -> new OrderDto(
+                        order.getId(),
+                        order.getDate(),
+                        order.getPaymentStatus(),
+                        order.getStatus(),
+                        order.getId()))
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public OrderEntity getOrderById(@PathVariable("id") int id){
+    public OrderDto getOrderById(@PathVariable("id") int id){
 
         OrderEntity order = orderRepository.findById(id).orElseThrow(() ->
                 new RuntimeException("Order not found with id: " + id));
 
-        return order;
+        return new OrderDto(
+                order.getId(),
+                order.getDate(),
+                order.getPaymentStatus(),
+                order.getStatus(),
+                order.getUserId().getId()
+        );
     }
 
     @PostMapping()
-    public OrderEntity saveOrder(
-            @PathVariable("userId") int userId,
-            @RequestBody OrderDto orderDto
-    ){
-        OrderEntity order = new OrderEntity();
-        order.setDate(orderDto.getDate());
-        order.setUserId(userId);
-        order.setPaymentStatus(orderDto.getPaymentStatus());
-        order.setStatus(orderDto.getStatus());
+    public OrderEntity saveOrder(@RequestBody OrderEntity order){
+        if(order.getUserId() != null && order.getUserId().getId() != 0){
+            UserEntity user = userRepository.findById(order.getUserId().getId())
+                    .orElseThrow(() -> new RuntimeException("Department not found"));
+            order.setUserId(user);
+        }else{
+            order.setUserId(null);
+        }
 
         return orderRepository.save(order);
     }

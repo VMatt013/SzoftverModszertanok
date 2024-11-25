@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 export class BackendService {
   private usersUrl = 'webshop/users';
   private productsUrl = 'webshop/products';
+  private ordersUrl = 'webshop/orders'
 
   constructor(private http: HttpClient) {}
 
@@ -42,6 +43,10 @@ export class BackendService {
 
   updateProduct(productId: number, updatedProduct: any): Observable<any> {
     return this.http.put(`${this.productsUrl}/${productId}`, updatedProduct); // PUT request to update the product
+  }
+
+  getOrders(): Observable<any> {
+    return this.http.get<any>(this.ordersUrl);
   }
 
 }

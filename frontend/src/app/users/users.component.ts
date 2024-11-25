@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BackendService } from '../backend.service';
 import {FormsModule} from '@angular/forms';
 import {log} from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-users',
@@ -18,7 +19,7 @@ export class UsersComponent implements OnInit {
   editingUser: any = null; // Track the user being edited
   backupUser: any = null; // Store original data for cancelation
 
-  constructor(private backendService: BackendService) {
+  constructor(private backendService: BackendService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -95,5 +96,13 @@ export class UsersComponent implements OnInit {
   cancelEdit(): void {
     this.loadUsers(); // Reload users to discard changes
     this.users.forEach(u => u.isEdit = false); // Exit edit mode
+  }
+
+  handleOrdersClick(userId: number): void{
+      if(!userId){
+        console.error("Invalid user ID")
+        return;
+      }
+      this.router.navigate(['/orders', userId]);
   }
 }

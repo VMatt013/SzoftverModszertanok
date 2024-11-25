@@ -3,6 +3,7 @@ package hu.unideb.inf.webshop.data.entity;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -11,24 +12,27 @@ public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity userId;
+
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name="date")
     private Date date;
-    @Column(name="user_id")
-    private int userId;
+
     @Column(name="payment_status")
     private String paymentStatus;
+
     @Column(name="status")
     private String status;
 
-    public OrderEntity() {
-    }
 
-    public OrderEntity(int id, Date date, int userId, String paymentStatus, String status) {
-        this.id = id;
-        this.date = date;
-        this.userId = userId;
-        this.paymentStatus = paymentStatus;
-        this.status = status;
+
+    /*@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<ProductOrderEntity> productOrders;*/
+
+    public OrderEntity() {
     }
 
     public int getId() {
@@ -47,14 +51,6 @@ public class OrderEntity {
         this.date = date;
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
     public String getPaymentStatus() {
         return paymentStatus;
     }
@@ -69,5 +65,21 @@ public class OrderEntity {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    /*public List<ProductOrderEntity> getProductOrders() {
+        return productOrders;
+    }
+
+    public void setProductOrders(List<ProductOrderEntity> productOrders) {
+        this.productOrders = productOrders;
+    }*/
+
+    public UserEntity getUserId() {
+        return userId;
+    }
+
+    public void setUserId(UserEntity userId) {
+        this.userId = userId;
     }
 }

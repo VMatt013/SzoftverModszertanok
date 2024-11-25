@@ -2,21 +2,29 @@ package hu.unideb.inf.webshop.data.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "products")
 public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @Column(name="size")
     private int size;
+
     @Column(name="weight")
     private int weight;
+
     @Column(name="name")
     private String name;
 
     @Column(name="price")
     private int price;
+
+    /*@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<ProductOrderEntity> productOrders;*/
 
     public ProductEntity() {
     }
@@ -68,4 +76,12 @@ public class ProductEntity {
     public void setPrice(int price) {
         this.price = price;
     }
+
+    /*public List<ProductOrderEntity> getProductOrders() {
+        return productOrders;
+    }
+
+    public void setProductOrders(List<ProductOrderEntity> productOrders) {
+        this.productOrders = productOrders;
+    }*/
 }
