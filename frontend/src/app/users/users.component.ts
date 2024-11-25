@@ -4,9 +4,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { BackendService } from '../backend.service';
 import {FormsModule} from '@angular/forms';
 import {SearchPipe} from './pipes/search.pipe';
-
-
-
 import {log} from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
 import { Router } from '@angular/router';
 
@@ -23,9 +20,6 @@ export class UsersComponent implements OnInit {
   users: any[] = [];
   newUser = {id: 0, firstName: '', lastName: '', emailAddress: ''};
   filteredUsers: any[] = [];
-
-
-  constructor(private backendService: BackendService) {
 
   constructor(private backendService: BackendService, private router: Router) {
   }
