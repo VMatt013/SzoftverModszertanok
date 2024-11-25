@@ -44,5 +44,6 @@ export class BackendService {
     return this.http.put(`${this.productsUrl}/${productId}`, updatedProduct); // PUT request to update the product
   }
 
+
 }
 

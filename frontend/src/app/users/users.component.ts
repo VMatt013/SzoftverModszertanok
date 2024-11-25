@@ -1,24 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, Pipe} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { BackendService } from '../backend.service';
 import {FormsModule} from '@angular/forms';
-import {log} from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
+import {SearchPipe} from './pipes/search.pipe';
+
+
+
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css'],
   standalone: true, // Enable standalone mode
-  imports: [CommonModule, HttpClientModule, FormsModule] // Import any required modules
+  imports: [CommonModule, HttpClientModule, FormsModule, SearchPipe] // Import any required modules
+
 })
 export class UsersComponent implements OnInit {
+  searchTerm: string = '';
   users: any[] = [];
   newUser = {id: 0, firstName: '', lastName: '', emailAddress: ''};
-  editingUser: any = null; // Track the user being edited
-  backupUser: any = null; // Store original data for cancelation
+  filteredUsers: any[] = [];
+
 
   constructor(private backendService: BackendService) {
+
   }
 
   ngOnInit(): void {
@@ -29,6 +35,7 @@ export class UsersComponent implements OnInit {
     this.backendService.getUsers().subscribe(
       (data) => {
         this.users = data;
+        this.filteredUsers = [...this.users];
       },
       (error) => {
         console.error('Error fetching users:', error);
@@ -41,6 +48,7 @@ export class UsersComponent implements OnInit {
       this.backendService.addUser(this.newUser).subscribe(
         (addedUser) => {
           this.users.push(addedUser);
+          this.filteredUsers.push(addedUser);
           this.newUser = {id: 0, firstName: '', lastName: '', emailAddress: ''}; // Reset the form
         },
         (error) => {
@@ -62,6 +70,7 @@ export class UsersComponent implements OnInit {
       () => {
         // Remove the deleted user from the list
         this.users = this.users.filter((user) => user.id !== userId);
+        this.filteredUsers = this.filteredUsers.filter(user => user.id !== userId);
         console.log(`User with ID ${userId} deleted successfully.`);
       },
       (error) => {
@@ -82,6 +91,12 @@ export class UsersComponent implements OnInit {
         if (index !== -1) {
           this.users[index] = updatedUser; // Update local data
         }
+
+        const indexInFiltered = this.filteredUsers.findIndex(u => u.id === updatedUser.id);
+        if (indexInFiltered !== -1) {
+          this.filteredUsers[indexInFiltered] = updatedUser;
+        }
+
         user.isEdit = false; // Exit edit mode
         console.log('User updated successfully:', updatedUser);
       },
@@ -95,5 +110,25 @@ export class UsersComponent implements OnInit {
   cancelEdit(): void {
     this.loadUsers(); // Reload users to discard changes
     this.users.forEach(u => u.isEdit = false); // Exit edit mode
+    this.filteredUsers = [...this.users];
+  }
+
+  onSearch(): void {
+    const searchValue = this.searchTerm.trim().toLowerCase();
+    if (!searchValue) {
+      // Reset to full list if search is empty
+      this.filteredUsers = [...this.users];
+    } else {
+      // Filter users based on the search term
+      this.filteredUsers = this.users.filter((user) =>
+        `${user.firstName} ${user.lastName}`.toLowerCase().includes(searchValue)
+      );
+    }
+  }
+
+  onInput(): void {
+    if (!this.searchTerm.trim()) {
+      this.filteredUsers = [...this.users]; // Reset immediately when input is cleared
+    }
   }
 }

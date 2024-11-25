@@ -4,19 +4,20 @@ import { HttpClientModule } from '@angular/common/http';
 import { BackendService } from '../backend.service';
 import {FormsModule} from '@angular/forms';
 import {log} from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
+import {SearchProductPipe} from './pipes/search.pipe';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, FormsModule],
+  imports: [CommonModule, HttpClientModule, FormsModule, SearchProductPipe],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css'
 })
 export class ProductsComponent implements OnInit {
+  searchTerm: string = '';
   products: any[] = [];
   newProduct: any = {id: 0, size: '', weight: '', name: '', price: ''};
-  editingProduct: any = null;
-  backupProduct: any = null;
+  filteredProducts: any[] = [];
 
   constructor(private backendService: BackendService) {
   }
@@ -29,6 +30,7 @@ export class ProductsComponent implements OnInit {
     this.backendService.getProducts().subscribe(
       (data) => {
         this.products = data;
+        this.filteredProducts = [...this.products];
       },
       (error) => {
         console.error('Error fetching products:', error);
@@ -41,6 +43,7 @@ export class ProductsComponent implements OnInit {
       this.backendService.addProduct(this.newProduct).subscribe(
         (addedProduct) => {
           this.products.push(addedProduct);
+          this.filteredProducts.push(addedProduct);
           this.newProduct = {id: 0, size: '', weight: '', name: '', price: ''};
         },
         (error) => {
@@ -62,6 +65,7 @@ export class ProductsComponent implements OnInit {
       () => {
         // Remove the deleted product from the list
         this.products = this.products.filter((product) => product.id !== productId);
+        this.filteredProducts = this.filteredProducts.filter((product) => product.id !== productId);
         console.log(`Product with ID ${productId} deleted successfully.`);
       },
       (error) => {
@@ -82,6 +86,12 @@ export class ProductsComponent implements OnInit {
         if (index !== -1) {
           this.products[index] = updatedProduct; // Update local data
         }
+
+        const indexInFiltered = this.filteredProducts.findIndex(u => u.id === updatedProduct.id);
+        if (indexInFiltered !== -1) {
+          this.filteredProducts[indexInFiltered] = updatedProduct;
+        }
+
         product.isEdit = false; // Exit edit mode
         console.log('Product updated successfully:', updatedProduct);
       },
@@ -95,6 +105,24 @@ export class ProductsComponent implements OnInit {
   cancelEdit(): void {
     this.loadProducts();
     this.products.forEach(p => p.isEdit = false);
+    this.filteredProducts = [...this.products];
+  }
+  onSearch(): void {
+    const searchValue = this.searchTerm.trim().toLowerCase();
+    if (!searchValue) {
+      // Reset to the full list if the search is empty
+      this.filteredProducts = [...this.products];
+    } else {
+      // Filter products based on the `name` property
+      this.filteredProducts = this.products.filter((product) =>
+        product.name.toLowerCase().includes(searchValue)
+      );
+    }
   }
 
+  onInput(): void {
+    if (!this.searchTerm.trim()) {
+      this.filteredProducts = [...this.products]; // Reset immediately when input is cleared
+    }
+  }
 }

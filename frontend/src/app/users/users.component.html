@@ -1,8 +1,21 @@
-
 <div>
-  <h2>User List</h2>
-
-  <div class="table-responsive-sm w-75 p-3 container-fluid">
+  <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+    <div class="container-fluid">
+      <a class="navbar-brand">User List</a>
+      <form class="d-flex" role="search" (ngSubmit)="onSearch()">
+        <input
+          class="form-control me-2"
+          type="search"
+          placeholder="Search by name"
+          [(ngModel)]="searchTerm"
+          name="searchTerm"
+          (input)="onInput()"
+          [ngModelOptions]="{standalone: true}"
+        />
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+  </nav>
     <table class="table table-striped table-hover table-dark table-bordered table-sm">
       <thead>
       <tr class="even-row-color col">
@@ -14,7 +27,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let user of users" class="grid_2">
+      <tr *ngFor="let user of filteredUsers" class="grid_2">
         <td>{{ user.id }}</td>
         <td>
           <div *ngIf="user.isEdit">
@@ -78,4 +91,5 @@
       </tbody>
     </table>
   </div>
-</div>
+
+
