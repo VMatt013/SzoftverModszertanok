@@ -9,7 +9,7 @@ CREATE TABLE users (
 CREATE TABLE orders (
     id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     date DATETIME,
-    user_id BIGINT,
+    user_id INT,
     payment_status VARCHAR(50),
     status VARCHAR(50),
     product_name VARCHAR(250),
