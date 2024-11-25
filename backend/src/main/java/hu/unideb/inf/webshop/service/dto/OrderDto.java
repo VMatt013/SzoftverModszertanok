@@ -1,6 +1,7 @@
 package hu.unideb.inf.webshop.service.dto;
 
 import java.util.Date;
+import java.util.List;
 
 public class OrderDto {
 
@@ -9,9 +10,9 @@ public class OrderDto {
     private String paymentStatus;
     private String status;
     private int userId;
-    private String productName;
+    private List<String> productName;
 
-    public OrderDto(int id, Date date, String paymentStatus, String status, int userId, String productName) {
+    public OrderDto(int id, Date date, String paymentStatus, String status, int userId, List<String> productName) {
         this.id = id;
         this.date = date;
         this.paymentStatus = paymentStatus;
@@ -60,11 +61,11 @@ public class OrderDto {
         this.status = status;
     }
 
-    public String getProductName() {
+    public List<String> getProductName() {
         return productName;
     }
 
-    public void setProductName(String productName) {
+    public void setProductName(List<String> productName) {
         this.productName = productName;
     }
 }

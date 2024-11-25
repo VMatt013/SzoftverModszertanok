@@ -31,7 +31,11 @@ public class OrderController {
                         order.getPaymentStatus(),
                         order.getStatus(),
                         order.getUserId().getId(),
-                        order.getProductName()))
+                        order.getProductOrders() != null
+                              ?  order.getProductOrders().stream()
+                                        .map(po -> po.getProduct().getName())
+                                        .collect(Collectors.toList())
+                        :List.of()))
                 .collect(Collectors.toList());
     }
 
@@ -41,13 +45,18 @@ public class OrderController {
         OrderEntity order = orderRepository.findById(id).orElseThrow(() ->
                 new RuntimeException("Order not found with id: " + id));
 
+        List<String> productNames = order.getProductOrders() != null ?
+                order.getProductOrders().stream()
+                        .map(po -> po.getProduct().getName())
+                        .collect(Collectors.toList()) : List.of();
+
         return new OrderDto(
                 order.getId(),
                 order.getDate(),
                 order.getPaymentStatus(),
                 order.getStatus(),
                 order.getUserId().getId(),
-                order.getProductName()
+                productNames
         );
     }
 

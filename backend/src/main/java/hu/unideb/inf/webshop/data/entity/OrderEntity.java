@@ -30,6 +30,9 @@ public class OrderEntity {
     @Column(name = "product_name")
     private String productName;
 
+    @OneToMany(mappedBy = "order")
+    private List<ProductOrderEntity> productOrders;
+
 
 
     /*@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
@@ -70,13 +73,13 @@ public class OrderEntity {
         this.status = status;
     }
 
-    /*public List<ProductOrderEntity> getProductOrders() {
+    public List<ProductOrderEntity> getProductOrders() {
         return productOrders;
     }
 
     public void setProductOrders(List<ProductOrderEntity> productOrders) {
         this.productOrders = productOrders;
-    }*/
+    }
 
     public UserEntity getUserId() {
         return userId;

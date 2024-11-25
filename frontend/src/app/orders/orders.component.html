@@ -9,28 +9,33 @@
           <th scope="col" class="table-primary">Id</th>
           <th scope="col">Date</th>
           <th scope="col" class="table-primary">User Id</th>
-          <th scope="col">Payment status</th>
-          <th scope="col" class="table-primary">Status</th>
+          <th scope="col">Product name</th>
+          <th scope="col" class="table-primary">Payment status</th>
+          <th scope="col">Status</th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let order of orders" class="grid_2">
           <td>{{order.id}}</td>
           <td>
-            
-            <div >
+            <div>
               {{ order.date }}
             </div>
           </td>
           <td>
-
-            <div >
+            <div>
               {{ order.userId }}
             </div>
           </td>
           <td>
-
-            <div >
+            <div>
+              <ul>
+                <li *ngFor="let productName of order.productName">{{ productName }} - asd</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <div>
               {{ order.paymentStatus }}
             </div>
           </td>
@@ -39,9 +44,7 @@
                 {{ order.status }}
               </div>
           </td>
-
         </tr>
-        
         </tbody>
       </table>
     </div>
