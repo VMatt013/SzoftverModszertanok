@@ -4,6 +4,8 @@ package hu.unideb.inf.webshop.controller;
 import hu.unideb.inf.webshop.data.entity.UserEntity;
 import hu.unideb.inf.webshop.data.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,8 +18,13 @@ public class UserController {
     private UserRepository userRepository;
 
     @GetMapping("")
-    public List<UserEntity> getUsers(){
-        return userRepository.findAll();
+    public ResponseEntity<List<UserEntity>> getAllUsers() {
+        try {
+            List<UserEntity> users = userRepository.findAll();
+            return ResponseEntity.ok(users);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
     @GetMapping("/{id}")

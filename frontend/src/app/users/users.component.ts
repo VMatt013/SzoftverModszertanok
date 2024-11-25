@@ -7,6 +7,8 @@ import {SearchPipe} from './pipes/search.pipe';
 
 
 
+import {log} from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-users',
@@ -25,6 +27,7 @@ export class UsersComponent implements OnInit {
 
   constructor(private backendService: BackendService) {
 
+  constructor(private backendService: BackendService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -130,5 +133,13 @@ export class UsersComponent implements OnInit {
     if (!this.searchTerm.trim()) {
       this.filteredUsers = [...this.users]; // Reset immediately when input is cleared
     }
+  }
+
+  handleOrdersClick(userId: number): void{
+      if(!userId){
+        console.error("Invalid user ID")
+        return;
+      }
+      this.router.navigate(['/orders', userId]);
   }
 }
