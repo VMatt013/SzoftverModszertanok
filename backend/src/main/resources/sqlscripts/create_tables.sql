@@ -1,23 +1,37 @@
-CREATE TABLE orders (
-    id INT not null auto_increment primary key,
-    date DATE(500),
-    user_id INT,
-    payment_status VARCHAR(500),
-    status VARCHAR(500)
+CREATE TABLE users (
+    id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    first_name VARCHAR(100),
+    last_name VARCHAR(100),
+    email_address VARCHAR(150) UNIQUE
 );
 
-CREATE TABLE product_order (
-    product_id INT,
-    order_id INT,
-    amount INT,
-    primary key(product_id, order_id)
+
+CREATE TABLE orders (
+    id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    date DATETIME,
+    user_id BIGINT,
+    payment_status VARCHAR(50),
+    status VARCHAR(50),
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );
+
+
+CREATE TABLE products_orders (
+    product_id INT,
+    order_id BIGINT,
+    amount INT,
+    PRIMARY KEY (product_id, order_id),
+    FOREIGN KEY (product_id) REFERENCES products(id),
+    FOREIGN KEY (order_id) REFERENCES orders(id)
+);
+
 
 CREATE TABLE products (
-    id INT not null auto_increment primary key,
+    id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     size INT,
     weight INT,
-    name VARCHAR(500),
+    name VARCHAR(100),
     price INT
 );
+
 
