@@ -27,6 +27,9 @@ public class OrderEntity {
     @Column(name="status")
     private String status;
 
+    @Column(name = "product_name")
+    private String productName;
+
 
 
     /*@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
@@ -81,5 +84,13 @@ public class OrderEntity {
 
     public void setUserId(UserEntity userId) {
         this.userId = userId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 }

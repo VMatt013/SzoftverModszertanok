@@ -30,7 +30,8 @@ public class OrderController {
                         order.getDate(),
                         order.getPaymentStatus(),
                         order.getStatus(),
-                        order.getId()))
+                        order.getUserId().getId(),
+                        order.getProductName()))
                 .collect(Collectors.toList());
     }
 
@@ -45,7 +46,8 @@ public class OrderController {
                 order.getDate(),
                 order.getPaymentStatus(),
                 order.getStatus(),
-                order.getUserId().getId()
+                order.getUserId().getId(),
+                order.getProductName()
         );
     }
 

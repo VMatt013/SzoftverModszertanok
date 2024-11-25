@@ -9,13 +9,15 @@ public class OrderDto {
     private String paymentStatus;
     private String status;
     private int userId;
+    private String productName;
 
-    public OrderDto(int id, Date date, String paymentStatus, String status, int userId) {
+    public OrderDto(int id, Date date, String paymentStatus, String status, int userId, String productName) {
         this.id = id;
         this.date = date;
         this.paymentStatus = paymentStatus;
         this.status = status;
         this.userId = userId;
+        this.productName = productName;
     }
 
     public int getId() {
@@ -55,6 +57,14 @@ public class OrderDto {
     }
 
     public void setStatus(String status) {
-        status = status;
+        this.status = status;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 }

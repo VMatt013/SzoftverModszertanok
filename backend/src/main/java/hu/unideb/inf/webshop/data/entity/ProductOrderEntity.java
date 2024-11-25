@@ -16,7 +16,7 @@ public class ProductOrderEntity {
 
     @ManyToOne
     @MapsId("orderId")
-    @JoinColumn(name = "oder_id")
+    @JoinColumn(name = "order_id")
     private OrderEntity order;
 
     @Column(name = "amount")
