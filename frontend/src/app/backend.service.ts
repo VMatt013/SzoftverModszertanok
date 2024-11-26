@@ -28,6 +28,10 @@ export class BackendService {
     return this.http.put(`${this.usersUrl}/${userId}`, updatedUser); // PUT request to update the user
   }
 
+  getUserOrders(userId: number): Observable<any>{
+    return this.http.get(`${this.usersUrl}/${userId}/order`)
+  } 
+
 
   getProducts(): Observable<any> {
     return this.http.get<any>(this.productsUrl);

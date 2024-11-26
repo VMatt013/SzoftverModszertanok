@@ -1,14 +1,18 @@
 package hu.unideb.inf.webshop.controller;
 
 
+import hu.unideb.inf.webshop.data.entity.OrderEntity;
 import hu.unideb.inf.webshop.data.entity.UserEntity;
 import hu.unideb.inf.webshop.data.repository.UserRepository;
+import hu.unideb.inf.webshop.data.repository.OrderRepository;
+import hu.unideb.inf.webshop.service.dto.OrderDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -16,6 +20,8 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired OrderRepository orderRepository;
 
     @GetMapping("")
     public ResponseEntity<List<UserEntity>> getAllUsers() {
@@ -34,6 +40,27 @@ public class UserController {
                 new RuntimeException("User not found with id: " + id));
 
         return user;
+    }
+
+    @GetMapping("/{id}/order")
+    public List<OrderDto> getUserOrder(@PathVariable("id") int id){
+
+        List<OrderEntity> orders = orderRepository.findAll();
+
+        return orders.stream()
+                .filter(order -> order.getUserId().getId() == id)
+                .map(order -> new OrderDto(
+                        order.getId(),
+                        order.getDate(),
+                        order.getPaymentStatus(),
+                        order.getStatus(),
+                        order.getUserId().getId(),
+                        order.getProductOrders() != null ?
+                                order.getProductOrders().stream()
+                                        .map(po -> po.getProduct().getName())
+                                        .collect(Collectors.toList())
+                                :List.of()))
+                .collect(Collectors.toList());
     }
 
     @PostMapping()

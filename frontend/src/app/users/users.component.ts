@@ -134,6 +134,6 @@ export class UsersComponent implements OnInit {
         console.error("Invalid user ID")
         return;
       }
-      this.router.navigate(['/orders', userId]);
+      this.router.navigate([`/users/${userId}/order`]);
   }
 }
