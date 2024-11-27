@@ -2,9 +2,14 @@
 # Created by https://www.toptal.com/developers/gitignore/api/intellij,node,angular,maven
 # Edit at https://www.toptal.com/developers/gitignore?templates=intellij,node,angular,maven
 
+
+start
+
 ### Angular ###
 ## Angular ##
 # compiled output
+
+
 dist/
 tmp/
 app/**/*.js
