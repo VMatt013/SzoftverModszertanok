@@ -20,8 +20,16 @@ public class UserService {
             @Override
             public UserDetails loadUserByUsername(String email) {
                 UserEntity user = repository.findByEmailAddress(email);
+                user.authorities.add(new SimpleGrantedAuthority(user.getRole().getRoleName()));
                 return user;
             }
         };
+    }
+
+    public boolean hasId(int id){
+        String username =  ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+        UserEntity user = repository.findByEmailAddress(username);
+        return user.getId() == id;
+
     }
 }

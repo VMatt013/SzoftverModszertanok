@@ -27,6 +27,8 @@ public class JwtService {
         Map<String, Object> claims = new HashMap<>();
         userDetails.getAuthorities().forEach(authority -> claims.put(authority.getAuthority(), authority));
 
+        claims.put("id", id);
+        claims.put("role", role.getRoleName());
         byte[] keyBytes = Decoders.BASE64.decode(SECRET);
         SecretKey key = Keys.hmacShaKeyFor(keyBytes);
 
