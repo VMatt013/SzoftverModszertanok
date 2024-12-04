@@ -3,6 +3,15 @@ CREATE TABLE users (
     first_name VARCHAR(100),
     last_name VARCHAR(100),
     email_address VARCHAR(150) UNIQUE
+    password VARCHAR(1000),
+    birth_date DATE,
+    role_id INT not null,
+    constraint FK_users_role_id foreign key(role_id) references roles(role_id)
+);
+
+CREATE TABLE roles (
+    role_id INT not null auto_increment primary key,
+    role_name VARCHAR(500)
 );
 
 CREATE TABLE orders (
