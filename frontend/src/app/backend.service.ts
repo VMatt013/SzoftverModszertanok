@@ -6,15 +6,16 @@ import { Observable } from 'rxjs';
   providedIn: 'root' // Makes the service available globally without needing a module
 })
 export class BackendService {
+  private token = sessionStorage.getItem("token");
   private usersUrl = 'webshop/users';
   private productsUrl = 'webshop/products';
   private ordersUrl = 'webshop/orders'
-
   constructor(private http: HttpClient) {}
 
   getUsers(): Observable<any> {
-    return this.http.get<any>(this.usersUrl);
-  }
+    return this.http.get<any>(this.usersUrl,
+      {headers: {'Accept' : 'application/json', 'Content-Type' : 'application/json', 'Authorization' : this.token ? `Bearer ${this.token}` : '' }})}
+
 
   addUser(user: any): Observable<any> {
     return this.http.post<any>(this.usersUrl, user);
@@ -30,7 +31,7 @@ export class BackendService {
 
   getUserOrders(userId: number): Observable<any>{
     return this.http.get(`${this.usersUrl}/${userId}/order`)
-  } 
+  }
 
 
   getProducts(): Observable<any> {
@@ -52,7 +53,6 @@ export class BackendService {
   getOrders(): Observable<any> {
     return this.http.get<any>(this.ordersUrl);
   }
-
 
 }
 

@@ -1,0 +1,45 @@
+<form [formGroup]="registrationForm" (ngSubmit)="onRegistration()">
+  <div class="mb-3">
+    <label for="firstName" class="form-label">First Name</label>
+    <input type="text" class="form-control" id="firstName" formControlName="firstName">
+    <div *ngIf="registrationForm.get('firstName')?.touched && registrationForm.get('firstName')?.invalid">
+      <small *ngIf="registrationForm.get('firstName')?.errors?.['required']" class="text-danger">First Name is required.</small>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="lastName" class="form-label">Last Name</label>
+    <input type="text" class="form-control" id="lastName" formControlName="lastName">
+    <div *ngIf="registrationForm.get('lastName')?.touched && registrationForm.get('lastName')?.invalid">
+      <small *ngIf="registrationForm.get('lastName')?.errors?.['required']" class="text-danger">Last Name is required.</small>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="emailAddress" class="form-label">Email address</label>
+    <input type="email" class="form-control" id="emailAddress" formControlName="emailAddress" aria-describedby="emailHelp">
+    <div *ngIf="registrationForm.get('emailAddress')?.touched && registrationForm.get('emailAddress')?.invalid">
+      <small *ngIf="registrationForm.get('emailAddress')?.errors?.['required']" class="text-danger">Email is required.</small>
+      <small *ngIf="registrationForm.get('emailAddress')?.errors?.['email']" class="text-danger">Invalid email format.</small>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="password" class="form-label">Password</label>
+    <input type="password" class="form-control" id="password" formControlName="password">
+    <div *ngIf="registrationForm.get('password')?.touched && registrationForm.get('password')?.invalid">
+      <small *ngIf="registrationForm.get('password')?.errors?.['required']" class="text-danger">Password is required.</small>
+      <small *ngIf="registrationForm.get('password')?.errors?.['minlength']" class="text-danger">Must be at least 6 characters.</small>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="birthDate" class="form-label">Birth Date</label>
+    <input type="date" class="form-control" id="birthDate" formControlName="birthDate">
+    <div *ngIf="registrationForm.get('birthDate')?.touched && registrationForm.get('birthDate')?.invalid">
+      <small *ngIf="registrationForm.get('birthDate')?.errors?.['required']" class="text-danger">Birth Date is required.</small>
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
