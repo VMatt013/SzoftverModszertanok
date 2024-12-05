@@ -9,18 +9,16 @@ public class RegistrationDto {
     private String emailAddress;
     private String password;
     private Date birthDate;
-    private String phone;
 
     public RegistrationDto() {
     }
 
-    public RegistrationDto(String firstName, String lastName, String emailAddress, String password, Date birthDate, String phone) {
+    public RegistrationDto(String firstName, String lastName, String emailAddress, String password, Date birthDate) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailAddress = emailAddress;
         this.password = password;
         this.birthDate = birthDate;
-        this.phone = phone;
     }
 
     public String getFirstName() {
@@ -61,14 +59,6 @@ public class RegistrationDto {
 
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 
     @Override

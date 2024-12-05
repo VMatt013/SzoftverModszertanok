@@ -2,7 +2,7 @@ CREATE TABLE users (
     id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     first_name VARCHAR(100),
     last_name VARCHAR(100),
-    email_address VARCHAR(150) UNIQUE
+    email_address VARCHAR(150) UNIQUE,
     password VARCHAR(1000),
     birth_date DATE,
     role_id INT not null,
@@ -46,6 +46,10 @@ INSERT INTO users (first_name, last_name, email_address) VALUES
 ('Jane', 'Smith', 'jane.smith@example.com'),
 ('Alice', 'Brown', 'alice.brown@example.com'),
 ('Bob', 'White', 'bob.white@example.com');
+
+Insert into roles (role_id, role_name) values
+(1, 'admin'),
+(2, 'user')
 
 INSERT INTO products (size, weight, name, price) VALUES
 (10, 500, 'Laptop', 1000),
