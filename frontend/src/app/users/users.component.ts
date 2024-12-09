@@ -20,6 +20,7 @@ export class UsersComponent implements OnInit {
   users: any[] = [];
   newUser = {id: 0, firstName: '', lastName: '', emailAddress: ''};
   filteredUsers: any[] = [];
+  currentUserId: number | null = null;
 
   constructor(private backendService: BackendService, private router: Router) {
   }

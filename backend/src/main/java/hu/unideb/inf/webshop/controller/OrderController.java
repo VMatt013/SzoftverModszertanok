@@ -7,6 +7,7 @@ import hu.unideb.inf.webshop.data.entity.UserEntity;
 import hu.unideb.inf.webshop.data.repository.UserRepository;
 import hu.unideb.inf.webshop.service.dto.OrderDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class OrderController {
     @Autowired
     private UserRepository userRepository;
 
+    @PreAuthorize("hasAuthority('admin')")
     @GetMapping("")
     public List<OrderDto> getOrders(/*@PathVariable("userId") int userId*/){
         List<OrderEntity> orders = orderRepository.findAll();
@@ -31,14 +33,22 @@ public class OrderController {
                         order.getPaymentStatus(),
                         order.getStatus(),
                         order.getUserId().getId(),
+                        order.getUserId().getFirstName(),
+                        order.getUserId().getLastName(),
                         order.getProductOrders() != null
                               ?  order.getProductOrders().stream()
                                         .map(po -> po.getProduct().getName())
                                         .collect(Collectors.toList())
-                        :List.of()))
+                                :List.of(),
+                        order.getProductOrders() != null ?
+                                order.getProductOrders().stream()
+                                        .map(po -> po.getAmount())
+                                        .collect(Collectors.toList())
+                                :List.of()))
                 .collect(Collectors.toList());
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @GetMapping("/{id}")
     public OrderDto getOrderById(@PathVariable("id") int id){
 
@@ -50,16 +60,26 @@ public class OrderController {
                         .map(po -> po.getProduct().getName())
                         .collect(Collectors.toList()) : List.of();
 
+        List<Integer> amount = order.getProductOrders() != null ?
+                order.getProductOrders().stream()
+                        .map(po -> po.getAmount())
+                        .collect(Collectors.toList()) : List.of();
+
         return new OrderDto(
                 order.getId(),
                 order.getDate(),
                 order.getPaymentStatus(),
                 order.getStatus(),
                 order.getUserId().getId(),
-                productNames
+                order.getUserId().getFirstName(),
+                order.getUserId().getLastName(),
+                productNames,
+                amount
+
         );
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @PostMapping()
     public OrderEntity saveOrder(@RequestBody OrderEntity order){
         if(order.getUserId() != null && order.getUserId().getId() != 0){
@@ -73,11 +93,13 @@ public class OrderController {
         return orderRepository.save(order);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @DeleteMapping("/{id}")
     public void deleteOrder(@PathVariable("id") int id){
         orderRepository.deleteById(id);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @PutMapping("/{id}")
     public OrderEntity updateOrder(@RequestBody OrderEntity order) {
         if(order.getId() > 0L){

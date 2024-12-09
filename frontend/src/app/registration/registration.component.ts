@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {CommonModule} from '@angular/common';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {catchError, throwError} from 'rxjs';
+import { Router } from '@angular/router';
 
 interface RegistrationData {
   firstName: string;
@@ -24,7 +25,7 @@ export class RegistrationComponent {
 
   registrationForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private http: HttpClient) {
+  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) {
     this.registrationForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -46,6 +47,7 @@ export class RegistrationComponent {
           {headers: {'Accept' : 'application/json', 'Content-Type' : 'application/json'},responseType: 'text' }
           ).subscribe(response => {
           this.setToken(response)
+          this.router.navigate(['/auth/login']);
         });
       }
   }

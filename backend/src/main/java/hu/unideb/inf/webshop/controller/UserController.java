@@ -2,10 +2,12 @@ package hu.unideb.inf.webshop.controller;
 
 
 import hu.unideb.inf.webshop.data.entity.OrderEntity;
+import hu.unideb.inf.webshop.data.entity.ProductOrderEntity;
 import hu.unideb.inf.webshop.data.entity.UserEntity;
 import hu.unideb.inf.webshop.data.repository.UserRepository;
 import hu.unideb.inf.webshop.data.repository.OrderRepository;
 import hu.unideb.inf.webshop.service.dto.OrderDto;
+import hu.unideb.inf.webshop.service.dto.ProfileDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,15 +36,26 @@ public class UserController {
         }
     }
 
+    @PreAuthorize("hasAuthority('admin') or @userService.hasId(#id)")
     @GetMapping("/{id}")
-    public UserEntity getUser(@PathVariable("id") int id){
+    public List<ProfileDto> getUser(@PathVariable("id") int id){
 
-        UserEntity user = userRepository.findById(id).orElseThrow(() ->
-                new RuntimeException("User not found with id: " + id));
+        List<UserEntity> users = userRepository.findAll();
 
-        return user;
+        return users.stream()
+                .filter(userId -> userId.getId() == id)
+                .map(user -> new ProfileDto(
+                        user.getId(),
+                        user.getFirstName(),
+                        user.getLastName(),
+                        user.getEmailAddress(),
+                        user.getBirthDate().toString(),
+                        user.getRole().getRoleName()
+                )).collect(Collectors.toList());
+
     }
 
+    @PreAuthorize("hasAuthority('admin') or @userService.hasId(#id)")
     @GetMapping("/{id}/order")
     public List<OrderDto> getUserOrder(@PathVariable("id") int id){
 
@@ -56,19 +69,29 @@ public class UserController {
                         order.getPaymentStatus(),
                         order.getStatus(),
                         order.getUserId().getId(),
+                        order.getUserId().getFirstName(),
+                        order.getUserId().getLastName(),
                         order.getProductOrders() != null ?
                                 order.getProductOrders().stream()
                                         .map(po -> po.getProduct().getName())
                                         .collect(Collectors.toList())
-                                :List.of()))
+                                :List.of(),
+                        order.getProductOrders() != null ?
+                                order.getProductOrders().stream()
+                                        .map(po -> po.getAmount())
+                                        .collect(Collectors.toList())
+                                :List.of()
+                                ))
                 .collect(Collectors.toList());
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @PostMapping()
     public UserEntity saveUser(@RequestBody UserEntity user){
         return userRepository.save(user);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable("id") int id){
         userRepository.deleteById(id);

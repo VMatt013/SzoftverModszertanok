@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { BackendService } from '../backend.service';
 
-
-
 @Component({
   selector: 'app-orders',
   standalone: true,

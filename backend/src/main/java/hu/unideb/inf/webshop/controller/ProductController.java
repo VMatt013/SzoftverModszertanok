@@ -3,6 +3,7 @@ package hu.unideb.inf.webshop.controller;
 import hu.unideb.inf.webshop.data.entity.ProductEntity;
 import hu.unideb.inf.webshop.data.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,16 +29,19 @@ public class ProductController {
         return product;
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @PostMapping()
     public ProductEntity saveProduct(@RequestBody ProductEntity product){
         return productRepository.save(product);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @DeleteMapping("/{id}")
     public void deleteProduct(@PathVariable("id") int id){
         productRepository.deleteById(id);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @PutMapping("/{id}")
     public ProductEntity updateProduct(@RequestBody ProductEntity product) {
         if(product.getId() > 0L){

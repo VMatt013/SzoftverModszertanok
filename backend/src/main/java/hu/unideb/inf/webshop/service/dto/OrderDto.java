@@ -10,15 +10,21 @@ public class OrderDto {
     private String paymentStatus;
     private String status;
     private int userId;
+    private String userFirstName;
+    private String userLastName;
     private List<String> productName;
+    private List<Integer> amount;
 
-    public OrderDto(int id, Date date, String paymentStatus, String status, int userId, List<String> productName) {
+    public OrderDto(int id, Date date, String paymentStatus, String status, int userId, String userFirstName, String userLastName, List<String> productName, List<Integer> amount) {
         this.id = id;
         this.date = date;
         this.paymentStatus = paymentStatus;
         this.status = status;
         this.userId = userId;
+        this.userFirstName = userFirstName;
+        this.userLastName = userLastName;
         this.productName = productName;
+        this.amount = amount;
     }
 
     public int getId() {
@@ -67,5 +73,29 @@ public class OrderDto {
 
     public void setProductName(List<String> productName) {
         this.productName = productName;
+    }
+
+    public String getUserFirstName() {
+        return userFirstName;
+    }
+
+    public void setUserFirstName(String userFirstName) {
+        this.userFirstName = userFirstName;
+    }
+
+    public String getUserLastName() {
+        return userLastName;
+    }
+
+    public void setUserLastName(String userLastName) {
+        this.userLastName = userLastName;
+    }
+
+    public List<Integer> getAmount() {
+        return amount;
+    }
+
+    public void setAmount(List<Integer> amount) {
+        this.amount = amount;
     }
 }

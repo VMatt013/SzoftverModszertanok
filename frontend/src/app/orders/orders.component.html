@@ -9,10 +9,11 @@
         <tr class="even-row-color col">
           <th scope="col" class="table-primary">Id</th>
           <th scope="col">Date</th>
-          <th scope="col" class="table-primary">User Id</th>
-          <th scope="col">Product name</th>
-          <th scope="col" class="table-primary">Payment status</th>
-          <th scope="col">Status</th>
+          <th scope="col" class="table-primary">First Name</th>
+          <th scope="col">Last Name</th>
+          <th scope="col" class="table-primary">Product name</th>
+          <th scope="col">Payment status</th>
+          <th scope="col" class="table-primary">Status</th>
         </tr>
         </thead>
         <tbody>
@@ -25,13 +26,18 @@
           </td>
           <td>
             <div>
-              {{ order.userId }}
+              {{ order.userFirstName }}
+            </div>
+          </td>
+          <td>
+            <div>
+              {{ order.userLastName }}
             </div>
           </td>
           <td>
             <div>
               <ul>
-                <li *ngFor="let productName of order.productName">{{ productName }} - asd</li>
+                <li *ngFor="let productName of order.productName; let i = index">{{ productName }} - {{ order.amount[i] }}</li>
               </ul>
             </div>
           </td>
