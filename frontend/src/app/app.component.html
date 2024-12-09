@@ -1,8 +1,16 @@
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">MyApp</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
@@ -23,18 +31,80 @@
           <a class="nav-link" routerLink="auth/registration" routerLinkActive="active">Registration</a>
         </li>
         <li class="nav-item" *ngIf="userRole === 'admin' || userRole === 'user'">
-          <a class="nav-link" (click)="onLogOut()">Log out</a>
+          <a class="nav-link" (click)="onLogOut()" routerLink="auth/login" routerLinkActive="active">Logout</a>
         </li>
       </ul>
       <ul class="navbar-nav ms-auto">
+        <!-- Cart Dropdown -->
         <li class="nav-item dropdown" *ngIf="userRole === 'admin' || userRole === 'user'">
-          <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown"
-            aria-expanded="false">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="cartDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Cart ({{ cart.length }})
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="cartDropdown">
+            <li *ngIf="cart.length === 0">
+              <span class="dropdown-item">Your cart is empty</span>
+            </li>
+            <li *ngFor="let item of cart">
+              <div class="dropdown-item d-flex justify-content-between align-items-center">
+                <span>{{ item.name }}</span>
+                <span>${{ item.price }}</span>
+              </div>
+            </li>
+            <li *ngIf="cart.length > 0">
+              <hr class="dropdown-divider" />
+              <button
+                class="dropdown-item btn btn-primary w-100"
+                (click)="placeOrder()"
+              >
+                Order
+              </button>
+            </li>
+          </ul>
+        </li>
+        <!-- Profile Dropdown -->
+        <li
+          class="nav-item dropdown"
+          *ngIf="userRole === 'admin' || userRole === 'user'"
+        >
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="profileDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
             Profile
           </a>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-            <li><a class="dropdown-item" (click)="handleProfileClick()" routerLinkActive="active">View Profile</a></li>
-            <li><a class="dropdown-item" (click)="handleOrdersClick()" routerLinkActive="active">Orders</a></li>
+          <ul
+            class="dropdown-menu dropdown-menu-end"
+            aria-labelledby="profileDropdown"
+          >
+            <li>
+              <a
+                class="dropdown-item"
+                (click)="handleProfileClick()"
+                routerLinkActive="active"
+              >
+                View Profile
+              </a>
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                (click)="handleOrdersClick()"
+                routerLinkActive="active"
+              >
+                Orders
+              </a>
+            </li>
           </ul>
         </li>
       </ul>
@@ -42,5 +112,6 @@
   </div>
 </nav>
 <div class="container">
-  <router-outlet />
+  <router-outlet></router-outlet>
 </div>
+

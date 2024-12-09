@@ -9,7 +9,9 @@ export class BackendService {
   private token = sessionStorage.getItem("token");
   private usersUrl = 'webshop/users';
   private productsUrl = 'webshop/products';
-  private ordersUrl = 'webshop/orders'
+  private ordersUrl = 'webshop/orders';
+  private productOrdersUrl = 'webshop/product-orders';
+
   constructor(private http: HttpClient) {}
 
   getUsers(): Observable<any> {
@@ -23,7 +25,7 @@ export class BackendService {
   }
 
   addUser(user: any): Observable<any> {
-    return this.http.post<any>(this.usersUrl, user, 
+    return this.http.post<any>(this.usersUrl, user,
       {headers: {'Accept' : 'application/json', 'Content-Type' : 'application/json', 'Authorization' : this.token ? `Bearer ${this.token}` : '' }});
   }
 
@@ -70,8 +72,20 @@ export class BackendService {
     ); // PUT request to update the product
   }
 
+addOrder(order: any): Observable<any> {
+    return this.http.post<any>(this.ordersUrl, order,
+      {headers: {'Accept' : 'application/json', 'Content-Type' : 'application/json', 'Authorization' : this.token ? `Bearer ${this.token}` : '' }}
+    );
+  }
+
   getOrders(): Observable<any> {
     return this.http.get<any>(this.ordersUrl,
+      {headers: {'Accept' : 'application/json', 'Content-Type' : 'application/json', 'Authorization' : this.token ? `Bearer ${this.token}` : '' }}
+    );
+  }
+
+  addProductOrder(order: any): Observable<any> {
+    return this.http.post<any>(this.productOrdersUrl, order,
       {headers: {'Accept' : 'application/json', 'Content-Type' : 'application/json', 'Authorization' : this.token ? `Bearer ${this.token}` : '' }}
     );
   }

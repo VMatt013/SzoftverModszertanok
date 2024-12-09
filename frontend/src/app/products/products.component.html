@@ -1,3 +1,4 @@
+
 <div>
   <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
     <div class="container-fluid">
@@ -16,95 +17,61 @@
       </form>
     </div>
   </nav>
-    <table class="table table-striped table-hover table-dark table-bordered table-sm">
-      <thead>
-        <tr class="even-row-color col">
-          <th scope="col" class="table-primary">Id</th>
-          <th scope="col">Size</th>
-          <th scope="col" class="table-primary">Weight</th>
-          <th scope="col">Name</th>
-          <th scope="col" class="table-primary">Price</th>
-          <th *ngIf="userRole === 'admin'" scope="col" class=>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let product of filteredProducts" class="grid_2">
-          <td>{{ product.id }}</td>
-          <td>
-            <div *ngIf="product.isEdit">
-              <input type="text" [(ngModel)]="product.size" />
-            </div>
-            <div *ngIf="!product.isEdit">
-              {{ product.size }}
-            </div>
-          </td>
-          <td>
-            <div *ngIf="product.isEdit">
-              <input type="text" [(ngModel)]="product.weight" />
-            </div>
-            <div *ngIf="!product.isEdit">
-              {{ product.weight }}
-            </div>
-          </td>
-          <td>
-            <div *ngIf="product.isEdit">
-              <input type="text" [(ngModel)]="product.name" />
-            </div>
-            <div *ngIf="!product.isEdit">
-              {{ product.name }}
-            </div>
-          </td>
-          <td>
-            <div *ngIf="product.isEdit">
-              <input type="text" [(ngModel)]="product.price" />
-            </div>
-            <div *ngIf="!product.isEdit">
-              {{ product.price }}
-            </div>
-          </td>
-          <td class="text-center align-middle" *ngIf="userRole === 'admin'">
-            <div *ngIf="!product.isEdit" class="btn-group me-2 " role="group" aria-label="First group">
-              <button type="button" class="btn btn-warning" (click)="editProduct(product)">Edit</button>
-              <button type="button" class="btn btn-danger" (click)="deleteProduct(product.id)">Delete</button>
-            </div>
-            <div *ngIf="product.isEdit" class="btn-group me-2 " role="group" aria-label="First group">
-              <button type="button" class="btn btn-success" (click)="saveProduct(product)">Save</button>
-              <button type="button" class="btn btn-danger" (click)="cancelEdit()">Cancel</button>
-            </div>
-          </td>
-        </tr>
-        <tr *ngIf="products.length === 0">
-          <td colspan="5" class="text-center">No product found. Add a new product!</td>
-        </tr>
-        <tr *ngIf="userRole === 'admin'">
-          <td></td>
-          <td class="align-middle text-center">
-            <label>
-              <input type="text" [(ngModel)]="newProduct.size" placeholder="Enter Size" />
-            </label>
-          </td>
-          <td class="text-center align-middle">
-            <label>
-              <input type="text" [(ngModel)]="newProduct.weight" placeholder="Enter Weight" />
-            </label>
-          </td>
-          <td class="text-center align-middle">
-            <label>
-              <input type="text" [(ngModel)]="newProduct.name" placeholder="Enter Name" />
-            </label>
 
-          </td>
-          <td class="text-center align-middle">
-            <label>
-              <input type="text" [(ngModel)]="newProduct.price" placeholder="Enter Price" />
-            </label>
-          </td>
-          <td>
-            <div class="text-center align-middle" role="group" aria-label="First group">
-              <button type="button" class="btn btn-primary" (click)="addProduct()">Add Product</button>
+  <div class="container mt-4">
+    <div class="row g-4">
+      <div class="col-12" *ngIf="products.length === 0">
+        <p class="text-center">No products found. Add a new product!</p>
+      </div>
+      <div class="col-md-4 col-lg-2" *ngFor="let product of filteredProducts">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <p class="card-text">
+              <strong>Size:</strong> {{ product.size }} <br />
+              <strong>Weight:</strong> {{ product.weight }} <br />
+              <strong>Price:</strong> ${{ product.price }}
+            </p>
+            <div class="text-center">
+              <!-- Admin actions -->
+              <div *ngIf="userRole === 'admin'">
+                <button type="button" class="btn btn-warning btn-sm me-2" (click)="editProduct(product)">Edit</button>
+                <button type="button" class="btn btn-danger btn-sm" (click)="deleteProduct(product.id)">Delete</button>
+              </div>
+              <!-- User actions -->
+              <div *ngIf="userRole === 'user'">
+                <button type="button" class="btn btn-success btn-sm" (click)="addToCart(product)">Add to Cart</button>
+              </div>
             </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="userRole === 'admin'" class="mt-4">
+      <h3>Add a New Product</h3>
+      <form class="row g-3" (ngSubmit)="addProduct()">
+        <div class="col-md-3">
+          <label class="form-label">Size</label>
+          <input type="text" class="form-control" [(ngModel)]="newProduct.size" name="size" placeholder="Enter Size" />
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Weight</label>
+          <input type="text" class="form-control" [(ngModel)]="newProduct.weight" name="weight" placeholder="Enter Weight" />
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Name</label>
+          <input type="text" class="form-control" [(ngModel)]="newProduct.name" name="name" placeholder="Enter Name" />
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Price</label>
+          <input type="text" class="form-control" [(ngModel)]="newProduct.price" name="price" placeholder="Enter Price" />
+        </div>
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary">Add Product</button>
+        </div>
+      </form>
+    </div>
   </div>
+</div>
+

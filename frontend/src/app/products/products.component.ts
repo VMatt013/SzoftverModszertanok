@@ -5,6 +5,7 @@ import { BackendService } from '../backend.service';
 import {FormsModule} from '@angular/forms';
 import {log} from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
 import {SearchProductPipe} from './pipes/search.pipe';
+import { CartService } from '../cart.service';
 
 @Component({
   selector: 'app-products',
@@ -19,13 +20,16 @@ export class ProductsComponent implements OnInit {
   newProduct: any = {id: 0, size: '', weight: '', name: '', price: ''};
   filteredProducts: any[] = [];
   userRole: string | null = null;
+  cart: any[] = [];
 
-  constructor(private backendService: BackendService) {
-  }
+  constructor(private backendService: BackendService, private cartService: CartService) {}
 
   ngOnInit(): void {
     this.loadProducts();
     this.userRole = sessionStorage.getItem('role');
+    this.cartService.cart$.subscribe(cartItems => {
+      this.cart = cartItems; // Sync local cart with service
+    });
   }
 
   loadProducts(): void {
@@ -127,4 +131,10 @@ export class ProductsComponent implements OnInit {
       this.filteredProducts = [...this.products]; // Reset immediately when input is cleared
     }
   }
+
+
+  addToCart(product: any): void {
+    this.cartService.addToCart(product); // Use the service to manage cart
+  }
+
 }
