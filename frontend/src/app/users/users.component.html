@@ -53,7 +53,7 @@
             {{ user.emailAddress }}
           </div>
         </td>
-        <td class="text-center align-middle">
+        <td class="text-center align-middle" *ngIf="userRole === 'admin'">
           <div *ngIf="!user.isEdit" class="btn-group me-2 " role="group" aria-label="First group" >
             <button type="button" class="btn btn-warning" (click)="editUser(user)">Edit</button>
             <button type="button" class="btn btn-danger" (click)="deleteUser(user.id)">Delete</button>

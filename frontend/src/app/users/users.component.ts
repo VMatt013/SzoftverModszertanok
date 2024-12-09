@@ -21,12 +21,15 @@ export class UsersComponent implements OnInit {
   newUser = {id: 0, firstName: '', lastName: '', emailAddress: ''};
   filteredUsers: any[] = [];
   currentUserId: number | null = null;
+  userRole: string | null = null;
 
   constructor(private backendService: BackendService, private router: Router) {
   }
 
   ngOnInit(): void {
     this.loadUsers();
+    this.userRole = sessionStorage.getItem('role');
+  
   }
 
   loadUsers(): void {

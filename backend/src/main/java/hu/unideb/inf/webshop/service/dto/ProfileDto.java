@@ -2,16 +2,18 @@ package hu.unideb.inf.webshop.service.dto;
 
 import hu.unideb.inf.webshop.data.entity.RoleEntity;
 
+import java.util.Date;
+
 public class ProfileDto {
 
     private int id;
     private String firstName;
     private String lastName;
     private String email;
-    private String birthDate;
+    private Date birthDate;
     private String role;
 
-    public ProfileDto(int id, String firstName, String lastName, String email, String birthDate, String role) {
+    public ProfileDto(int id, String firstName, String lastName, String email, Date birthDate, String role) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -44,11 +46,11 @@ public class ProfileDto {
         this.email = email;
     }
 
-    public String getBirthDate() {
+    public Date getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(String birthDate) {
+    public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
 

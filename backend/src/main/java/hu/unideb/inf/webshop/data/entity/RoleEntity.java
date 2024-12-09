@@ -2,6 +2,8 @@ package hu.unideb.inf.webshop.data.entity;
 
 import jakarta.persistence.*;
 
+import javax.management.relation.Role;
+
 @Entity
 @Table(name = "roles")
 public class RoleEntity {
@@ -17,6 +19,10 @@ public class RoleEntity {
 
     public RoleEntity(int roleId, String roleName) {
         this.roleId = roleId;
+        this.roleName = roleName;
+    }
+
+    public RoleEntity(String roleName) throws RuntimeException{
         this.roleName = roleName;
     }
 

@@ -18,12 +18,14 @@ export class ProductsComponent implements OnInit {
   products: any[] = [];
   newProduct: any = {id: 0, size: '', weight: '', name: '', price: ''};
   filteredProducts: any[] = [];
+  userRole: string | null = null;
 
   constructor(private backendService: BackendService) {
   }
 
   ngOnInit(): void {
     this.loadProducts();
+    this.userRole = sessionStorage.getItem('role');
   }
 
   loadProducts(): void {

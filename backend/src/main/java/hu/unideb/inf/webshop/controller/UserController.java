@@ -3,7 +3,9 @@ package hu.unideb.inf.webshop.controller;
 
 import hu.unideb.inf.webshop.data.entity.OrderEntity;
 import hu.unideb.inf.webshop.data.entity.ProductOrderEntity;
+import hu.unideb.inf.webshop.data.entity.RoleEntity;
 import hu.unideb.inf.webshop.data.entity.UserEntity;
+import hu.unideb.inf.webshop.data.repository.RoleRepository;
 import hu.unideb.inf.webshop.data.repository.UserRepository;
 import hu.unideb.inf.webshop.data.repository.OrderRepository;
 import hu.unideb.inf.webshop.service.dto.OrderDto;
@@ -24,7 +26,11 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired OrderRepository orderRepository;
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @GetMapping("")
     public ResponseEntity<List<UserEntity>> getAllUsers() {
@@ -41,6 +47,7 @@ public class UserController {
     public List<ProfileDto> getUser(@PathVariable("id") int id){
 
         List<UserEntity> users = userRepository.findAll();
+        List<RoleEntity> roles = roleRepository.findAll();
 
         return users.stream()
                 .filter(userId -> userId.getId() == id)
@@ -49,7 +56,7 @@ public class UserController {
                         user.getFirstName(),
                         user.getLastName(),
                         user.getEmailAddress(),
-                        user.getBirthDate().toString(),
+                        user.getBirthDate(),
                         user.getRole().getRoleName()
                 )).collect(Collectors.toList());
 
@@ -99,12 +106,19 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('admin') or @userService.hasId(#id)")
     @PutMapping("/{id}")
-    public UserEntity updateUser(@PathVariable("id") int id, @RequestBody UserEntity userDetails){
-        UserEntity user = userRepository.getReferenceById(id);
+    public UserEntity updateUser(@PathVariable("id") int id, @RequestBody ProfileDto profileDto){
+        UserEntity user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-        user.setFirstName(userDetails.getFirstName());
-        user.setLastName(userDetails.getLastName());
-        user.setEmailAddress(userDetails.getEmailAddress());
+        user.setFirstName(profileDto.getFirstName());
+        user.setLastName(profileDto.getLastName());
+        user.setEmailAddress(profileDto.getEmail());
+
+        if (profileDto.getRole() != null) {
+            // Convert role string to RoleEntity
+            RoleEntity roleEntity = roleRepository.findByRoleName(profileDto.getRole());
+            user.setRole(roleEntity);
+        }
 
         return userRepository.save(user);
     }

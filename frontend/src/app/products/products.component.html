@@ -24,7 +24,7 @@
           <th scope="col" class="table-primary">Weight</th>
           <th scope="col">Name</th>
           <th scope="col" class="table-primary">Price</th>
-          <th scope="col" class=>Action</th>
+          <th *ngIf="userRole === 'admin'" scope="col" class=>Action</th>
         </tr>
       </thead>
       <tbody>
@@ -62,7 +62,7 @@
               {{ product.price }}
             </div>
           </td>
-          <td class="text-center align-middle">
+          <td class="text-center align-middle" *ngIf="userRole === 'admin'">
             <div *ngIf="!product.isEdit" class="btn-group me-2 " role="group" aria-label="First group">
               <button type="button" class="btn btn-warning" (click)="editProduct(product)">Edit</button>
               <button type="button" class="btn btn-danger" (click)="deleteProduct(product.id)">Delete</button>
@@ -76,7 +76,7 @@
         <tr *ngIf="products.length === 0">
           <td colspan="5" class="text-center">No product found. Add a new product!</td>
         </tr>
-        <tr>
+        <tr *ngIf="userRole === 'admin'">
           <td></td>
           <td class="align-middle text-center">
             <label>
