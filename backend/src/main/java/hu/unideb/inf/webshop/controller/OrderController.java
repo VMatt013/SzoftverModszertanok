@@ -79,7 +79,6 @@ public class OrderController {
         );
     }
 
-    @PreAuthorize("hasAuthority('admin') or @userService.hasId(#id)")
     @PostMapping()
     public OrderEntity saveOrder(@RequestBody OrderEntity order){
         if(order.getUserId() != null && order.getUserId().getId() != 0){

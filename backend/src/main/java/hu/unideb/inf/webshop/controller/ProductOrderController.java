@@ -17,7 +17,6 @@ public class ProductOrderController {
     private ProductOrderRepository productOrderRepository;
 
 
-    @PreAuthorize("hasAuthority('admin') or @userService.hasId(#userId)")
     @PostMapping()
     public ProductOrderEntity saveProductOrder(@RequestBody ProductOrderEntity productOrder) {
         return productOrderRepository.save(productOrder);
